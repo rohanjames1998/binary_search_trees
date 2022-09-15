@@ -2,7 +2,9 @@
 # MODULES
 #-------------------------------------#
 
+module BstMethods
 
+end
 
 
 
@@ -18,14 +20,18 @@
 class Node
 
   include Comparable
-  include 
+  include BstMethods
 
-  attr_accessor :left_child, :right_child
+  attr_accessor :left_child, :right_child, :value
 
-  def initialize(value, left=nil, right=nil)
+  # Node class can be initialized with one value and
+  # two additional nodes. These nodes will be compared
+  # and added as left or right child. Both nodes are
+  # optional.
+  def initialize(value, node_1=nil, node_2=nil)
     @value = value
-    @left_child = check_val(left, right)
-    @right_child = check_val(left, right)
+    @left_child =
+    @right_child =
   end
 end
 
