@@ -4,15 +4,17 @@
 
 module BstMethods
 
-  def build_tree(arr, start=0, end=arr.length - 1)
-
-    return if start > end
-
-    mid = (start + end)/2
+  # This method takes an array that has no duplicates and is sorted. It returns the root node
+  def build_tree(arr, start=0, end_of_arr=arr.length - 1)
+    # Base case is when start is greater than end_of_arr.
+    return if start > end_of_arr
+    # We set the root node to the mid element of array.
+    mid = ((start + end_of_arr)/2).round
     root = Node.new(arr[mid])
-
+    # Then we recursively add left and right child to root using the same logic.
     root.left_child = build_tree(arr, start, mid - 1)
-    root.right_child = build_tree(arr, mid + 1, end)
+    root.right_child = build_tree(arr, mid + 1, end_of_arr)
+    # Finally, we return the root node.
     return root
   end
 
@@ -57,8 +59,17 @@ class Tree
   include BstMethods
 
   def initialize(arr)
-    # Removing duplicates from array
+    # Removing duplicates from array.
+    arr.uniq!
+    # Sorting the array.
+    arr.sort!
     @root = build_tree(arr)
+  end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
 end
