@@ -18,6 +18,27 @@ module BstMethods
     return root
   end
 
+  def insert_node(value, root_node)
+    case
+      when root_node.value == value
+        puts "Error: Cannot insert duplicate node."
+        return
+      when value < root_node.value
+        if root_node.left_child == nil
+          root_node.left_child = Node.new(value)
+        else
+        root_node.left_child.insert_node(value)
+        end
+      when value > root_node.value
+        if root_node.right_child == nil
+          root_node.right_child = Node.new(value)
+        else
+          root_node.right_child.insert_node(value)
+        end
+      end
+    end
+
+
 end
 
 
@@ -76,27 +97,8 @@ class Tree
   end
 
   def insert(value)
-
-  case
-    when node.value == value
-      puts "Error: Cannot insert duplicate node."
-      return
-    when value < self.node.value
-      if self.node.left_child == nil
-        self.node.left_child = Node.new(value)
-      else
-      self.left_child.insert(value)
-      end
-    when value > self.node.value
-      if self.node.right_child == nil
-        self.node.right_child = Node.new(value)
-      else
-        self.right_child.insert(value)
-      end
-    end
-  end
-
-
+  root_node = self.root
+  insert_node(value, root_node)
   end
 
 end
@@ -104,4 +106,5 @@ end
 
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+my_bst.insert(99)
 my_bst.pretty_print
