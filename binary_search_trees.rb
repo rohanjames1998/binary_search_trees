@@ -4,6 +4,18 @@
 
 module BstMethods
 
+  def build_tree(arr, start=0, end=arr.length - 1)
+
+    return if start > end
+
+    mid = (start + end)/2
+    root = Node.new(arr[mid])
+
+    root.left_child = build_tree(arr, start, mid - 1)
+    root.right_child = build_tree(arr, mid + 1, end)
+    return root
+  end
+
 end
 
 
@@ -42,7 +54,10 @@ end
 
 class Tree
 
+  include BstMethods
+
   def initialize(arr)
+    # Removing duplicates from array
     @root = build_tree(arr)
   end
 
