@@ -30,9 +30,15 @@ class Node
   # optional.
   def initialize(value, node_1=nil, node_2=nil)
     @value = value
-    @left_child =
-    @right_child =
+    @left_child = nil
+    @right_child = nil
+    if node_1
+      node_1 > value ? right_child = node_1 : left_child = node_1
+    elsif node_1 && node_2
+      node_1 > node_2 ? right_child = node_1; left_child = node_2 : right_child = node_2; left_child = node_1
+    end
   end
+
 end
 
 class Tree
