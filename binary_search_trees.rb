@@ -49,7 +49,8 @@ class Node
     if node_1
       node_1.value > value ? right_child = node_1 : left_child = node_1
     elsif node_1 && node_2
-      node_1.value > node_2.value ? right_child = node_1; left_child = node_2 : right_child = node_2; left_child = node_1
+      node_1.value > node_2.value ? right_child = node_1 && left_child = node_2 :
+      right_child = node_2 && left_child = node_1
     end
   end
 end
@@ -57,6 +58,8 @@ end
 class Tree
 
   include BstMethods
+
+  attr_accessor :root
 
   def initialize(arr)
     # Removing duplicates from array.
@@ -66,11 +69,39 @@ class Tree
     @root = build_tree(arr)
   end
 
-  def pretty_print(node = @root, prefix = '', is_left = true)
-    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
-    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
-    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  def pretty_print(node = root, prefix = '', is_left = true)
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+  end
+
+  def insert(value)
+
+  case
+    when node.value == value
+      puts "Error: Cannot insert duplicate node."
+      return
+    when value < self.node.value
+      if self.node.left_child == nil
+        self.node.left_child = Node.new(value)
+      else
+      self.left_child.insert(value)
+      end
+    when value > self.node.value
+      if self.node.right_child == nil
+        self.node.right_child = Node.new(value)
+      else
+        self.right_child.insert(value)
+      end
+    end
+  end
+
+
   end
 
 end
 
+
+
+my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+my_bst.pretty_print
