@@ -33,13 +33,18 @@ class Node
     @left_child = nil
     @right_child = nil
     if node_1
-      node_1 > value ? right_child = node_1 : left_child = node_1
+      node_1.value > value ? right_child = node_1 : left_child = node_1
     elsif node_1 && node_2
-      node_1 > node_2 ? right_child = node_1; left_child = node_2 : right_child = node_2; left_child = node_1
+      node_1.value > node_2.value ? right_child = node_1; left_child = node_2 : right_child = node_2; left_child = node_1
     end
   end
-
 end
 
 class Tree
+
+  def initialize(arr)
+    @root = build_tree(arr)
+  end
+
+end
 
