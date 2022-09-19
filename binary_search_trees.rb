@@ -84,6 +84,19 @@ module BstMethods
     end
   end
 
+  def lvl_ordr_bst_nodes(node, memo=[])
+    memo << node
+    if node.left_child
+      lvl_ordr_bst_nodes(node.left_child, memo)
+    elsif node.right_child
+      lvl_ordr_bst_nodes(node.right_child, memo)
+    else
+      return memo
+    end
+  end
+
+
+
 
 
 end
@@ -145,8 +158,7 @@ class Tree
 
   # This method mainly calls insert_node method.
   def insert(value)
-  root_node = self.root
-  insert_node(value, root_node)
+  insert_node(value, self.root)
   end
 
   # This method deletes the node containing given value. This method assumes
@@ -175,15 +187,22 @@ class Tree
 
   # This method mainly calls find_val method.
   def find(value)
-    node = self.root
-    find_val(value, node)
+    find_val(value, self.root)
   end
+
+  def level_order
+    level_order_nodes = lvl_ordr_bst_nodes(self.root)
+    return level_order_nodes
+  end
+
+
 end
 
 
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
-my_bst.delete(67)
+# my_bst.delete(8)
 my_bst.pretty_print
+p my_bst.level_order
 
