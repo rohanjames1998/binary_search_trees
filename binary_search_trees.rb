@@ -84,16 +84,7 @@ module BstMethods
     end
   end
 
-  def lvl_ordr_bst_nodes(node, memo=[])
-    memo << node
-    if node.left_child
-      lvl_ordr_bst_nodes(node.left_child, memo)
-    elsif node.right_child
-      lvl_ordr_bst_nodes(node.right_child, memo)
-    else
-      return memo
-    end
-  end
+
 
 
 
@@ -190,10 +181,44 @@ class Tree
     find_val(value, self.root)
   end
 
+  # This method traverses the tree in level order and yields each node in the same order.
+  # If no block is given it returns an array of all nodes in level order.
   def level_order
-    level_order_nodes = lvl_ordr_bst_nodes(self.root)
-    return level_order_nodes
+    current_node = self.root
+    level_order_nodes = []
+    level_order_nodes << current_node
+    lvl_order_vals = []
+    i = 0
+
+  if block_given?
+    while current_node
+      current_node = level_order_nodes[i]
+      break if current_node == nil
+        yield current_node
+      i += 1
+      if current_node.left_child
+        level_order_nodes << current_node.left_child
+      end
+      if current_node.right_child
+        level_order_nodes << current_node.right_child
+      end
+    end
+  else
+    while current_node
+      current_node = level_order_nodes[i]
+      break if current_node == nil
+      lvl_order_vals << current_node.value
+      i += 1
+      if current_node.left_child
+        level_order_nodes << current_node.left_child
+      end
+      if current_node.right_child
+        level_order_nodes << current_node.right_child
+      end
+    end
+    return lvl_order_vals
   end
+end
 
 
 end
@@ -204,5 +229,5 @@ my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
 my_bst.pretty_print
-p my_bst.level_order
+
 
