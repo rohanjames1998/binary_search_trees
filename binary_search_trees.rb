@@ -43,6 +43,21 @@ module BstMethods
       end
     end
 
+    def find_val(value, node)
+       # Base case if we find the value we return the node. Else if the node
+    # Does not exist, we return nil.
+    if node.value == value
+      return node
+    elsif node.value == nil
+      return nil
+    end
+
+    if node.value > value
+      find_val(value, node.left_child)
+    else
+      find_val(value, node.right_child)
+    end
+  end
 
 end
 
