@@ -18,22 +18,27 @@ module BstMethods
     return root
   end
 
+  # This method takes a value and a root node, and inserts that value as a node in the tree.
   def insert_node(value, root_node)
     case
+      # Check for duplicate
       when root_node.value == value
         puts "Error: Cannot insert duplicate node."
         return
       when value < root_node.value
+        # If value is less than root value and root node doesn't have a left_child, insert value
+        # as the left child else recursively call #insert_node on root's left_child.
         if root_node.left_child == nil
           root_node.left_child = Node.new(value)
         else
-        root_node.left_child.insert_node(value)
+        root_node.insert_node(value, root_node.left_child)
         end
       when value > root_node.value
+        # We do the same thing we did for left_child.
         if root_node.right_child == nil
           root_node.right_child = Node.new(value)
         else
-          root_node.right_child.insert_node(value)
+          root_node.insert_node(value, root_node.right_child)
         end
       end
     end
@@ -96,11 +101,18 @@ class Tree
     pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
 
+  # This method mainly calls insert_node method.
   def insert(value)
   root_node = self.root
   insert_node(value, root_node)
   end
 
+  # This method finds the node containing the given value.
+  # This method mainly calls find_val method.
+  def find(value)
+    node = self.root
+    find_val(value, node)
+  end
 end
 
 
