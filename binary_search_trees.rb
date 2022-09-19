@@ -67,7 +67,11 @@ module BstMethods
   def find_successor_val(node)
     # Because we need to know the node before the successor node, we check for the right child
     # of the last left node in advance.
-    if node.left_child.left_child.nil? && node.left_child.right_child != nil
+    if node.left_child.nil? && node.right_child.nil?
+      successor_val = node.value
+      node.value = nil
+    return successor_val
+    elsif node.left_child.left_child.nil? && node.left_child.right_child != nil
       previous_node = node
       successor_node = node.left_child
       successor_val = successor_node.value
@@ -75,8 +79,6 @@ module BstMethods
       successor_node.right_child = nil
       successor_node.value = nil
       return successor_val
-    elsif node.left_child.nil? && node.right_child.nil?
-      return node.value
     else
       find_successor_val(node.left_child)
     end
@@ -164,9 +166,11 @@ class Tree
       node_to_delete.value = node_to_delete.right_child.value
       # If node has two child nodes, we find the successor node and swap it with node_to_delete.
     else
-      successor_val = find_successor_val(node_to_delete)
+      # Since we need to first visit the node_to_delete's right child then traverse through it's
+      # left children we pass node_to_delete.right_child into find successor_val.
+      successor_val = find_successor_val(node_to_delete.right_child)
       node_to_delete.value = successor_val
-
+    end
   end
 
   # This method mainly calls find_val method.
@@ -180,5 +184,6 @@ end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
+my_bst.delete(67)
 my_bst.pretty_print
 
