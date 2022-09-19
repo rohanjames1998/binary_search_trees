@@ -43,8 +43,9 @@ module BstMethods
       end
     end
 
+  # This method finds the node containing the given value.
     def find_val(value, node)
-       # Base case if we find the value we return the node. Else if the node
+    # Base case if we find the value we return the node. Else if the node
     # Does not exist, we return nil.
     if node.value == value
       return node
@@ -122,7 +123,27 @@ class Tree
   insert_node(value, root_node)
   end
 
-  # This method finds the node containing the given value.
+  # This method deletes the node containing given value. This method assumes
+  # that the tree given is balanced.
+  def delete(value)
+    node_to_delete = find_val(value, self.root)
+
+    case
+      # If the node doesn't have any child nodes, we simply delete it.
+    when node_to_delete.left_child == nil && node_to_delete.right_child == nil
+      node_to_delete.value = nil
+      # If the node has only a left child, make left_child the successor node.
+    when node_to_delete.left_child != nil && node_to_delete.right_child == nil
+      node_to_delete.value = node_to_delete.left_child.value
+      # If the node only has a right child, make right_child the successor node.
+    when node_to_delete.right_child != nil && node_to_delete.left_child == nil
+      node_to_delete.value = node_to_delete.right_child.value
+      # If node has two child nodes, we find the successor node and swap it with node_to_delete.
+    else
+      successor_node = find_successor_node(node_to_delete)
+
+  end
+
   # This method mainly calls find_val method.
   def find(value)
     node = self.root
@@ -135,3 +156,4 @@ end
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 my_bst.pretty_print
+
