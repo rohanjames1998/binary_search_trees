@@ -3,13 +3,13 @@
 #-------------------------------------#
 
 module BstMethods
-
   # This method takes an array that has no duplicates and is sorted. It returns the root node
-  def build_tree(arr, start=0, end_of_arr=arr.length - 1)
+  def build_tree(arr, start = 0, end_of_arr = arr.length - 1)
     # Base case is when start is greater than end_of_arr.
     return if start > end_of_arr
+
     # We set the root node to the mid element of array.
-    mid = ((start + end_of_arr)/2).round
+    mid = ((start + end_of_arr) / 2).round
     root = Node.new(arr[mid])
     # Then we recursively add left and right child to root using the same logic.
     root.left_child = build_tree(arr, start, mid - 1)
@@ -22,29 +22,29 @@ module BstMethods
   def insert_node(value, root_node)
     case
       # Check for duplicate
-      when root_node.value == value
-        puts "Error: Cannot insert duplicate node."
-        return
-      when value < root_node.value
-        # If value is less than root value and root node doesn't have a left_child, insert value
-        # as the left child else recursively call #insert_node on root's left_child.
-        if root_node.left_child == nil
-          root_node.left_child = Node.new(value)
-        else
+    when root_node.value == value
+      puts "Error: Cannot insert duplicate node."
+      return
+    when value < root_node.value
+      # If value is less than root value and root node doesn't have a left_child, insert value
+      # as the left child else recursively call #insert_node on root's left_child.
+      if root_node.left_child == nil
+        root_node.left_child = Node.new(value)
+      else
         root_node.insert_node(value, root_node.left_child)
-        end
-      when value > root_node.value
-        # We do the same thing we did for left_child.
-        if root_node.right_child == nil
-          root_node.right_child = Node.new(value)
-        else
-          root_node.insert_node(value, root_node.right_child)
-        end
+      end
+    when value > root_node.value
+      # We do the same thing we did for left_child.
+      if root_node.right_child == nil
+        root_node.right_child = Node.new(value)
+      else
+        root_node.insert_node(value, root_node.right_child)
       end
     end
+  end
 
   # This method finds the node containing the given value.
-    def find_val(value, node)
+  def find_val(value, node)
     # Base case if we find the value we return the node. Else if the node
     # Does not exist, we return nil.
     if node.value == value
@@ -70,7 +70,7 @@ module BstMethods
     if node.left_child.nil? && node.right_child.nil?
       successor_val = node.value
       node.value = nil
-    return successor_val
+      return successor_val
     elsif node.left_child.left_child.nil? && node.left_child.right_child != nil
       previous_node = node
       successor_node = node.left_child
@@ -83,28 +83,13 @@ module BstMethods
       find_successor_val(node.left_child)
     end
   end
-
-
-
-
-
-
-
 end
-
-
-
-
-
-
-
 
 #-------------------------------------#
 # CLASSES
 #-------------------------------------#
 
 class Node
-
   include Comparable
   include BstMethods
 
@@ -114,7 +99,7 @@ class Node
   # two additional nodes. These nodes will be compared
   # and added as left or right child. Both nodes are
   # optional.
-  def initialize(value, node_1=nil, node_2=nil)
+  def initialize(value, node_1 = nil, node_2 = nil)
     @value = value
     @left_child = nil
     @right_child = nil
@@ -128,7 +113,6 @@ class Node
 end
 
 class Tree
-
   include BstMethods
 
   attr_accessor :root
@@ -149,7 +133,7 @@ class Tree
 
   # This method mainly calls insert_node method.
   def insert(value)
-  insert_node(value, self.root)
+    insert_node(value, self.root)
   end
 
   # This method deletes the node containing given value. This method assumes
@@ -190,44 +174,48 @@ class Tree
     lvl_order_vals = []
     i = 0
 
-  if block_given?
-    while current_node
-      current_node = level_order_nodes[i]
-      break if current_node == nil
+    if block_given?
+      loop do
+        current_node = level_order_nodes[i]
+        break if current_node == nil
+
         yield current_node
-      i += 1
-      if current_node.left_child
-        level_order_nodes << current_node.left_child
+        i += 1
+        if current_node.left_child
+          level_order_nodes << current_node.left_child
+        end
+        if current_node.right_child
+          level_order_nodes << current_node.right_child
+        end
       end
-      if current_node.right_child
-        level_order_nodes << current_node.right_child
+    else
+      loop do
+        current_node = level_order_nodes[i]
+        break if current_node == nil
+
+        lvl_order_vals << current_node.value
+        i += 1
+        if current_node.left_child
+          level_order_nodes << current_node.left_child
+        end
+        if current_node.right_child
+          level_order_nodes << current_node.right_child
+        end
       end
+      return lvl_order_vals
     end
-  else
-    while current_node
-      current_node = level_order_nodes[i]
-      break if current_node == nil
-      lvl_order_vals << current_node.value
-      i += 1
-      if current_node.left_child
-        level_order_nodes << current_node.left_child
-      end
-      if current_node.right_child
-        level_order_nodes << current_node.right_child
-      end
+  end
+
+  def preorder
+    if block_given?
+      preorder_block(self.root)
+    else
+      preorder_no_block(self.root)
     end
-    return lvl_order_vals
   end
 end
-
-
-end
-
-
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
 my_bst.pretty_print
-
-
