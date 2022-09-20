@@ -209,10 +209,11 @@ class Tree
   # This method mainly calls two functions. If block is given it calls a function that yields nodes in pre-order.
   # Else it returns an array of values (of nodes) in pre-order.
   def preorder(node=self.root, output =[], &block)
-    return node if node == nil
-    output << block_given ? block.call(node): node.value
+    return if node == nil
+    output.push(block_given? ? block.call(node): node.value)
     preorder(node.left_child, output, &block)
     preorder(node.right_child, output, &block)
+    output
   end
 end
 
@@ -220,7 +221,5 @@ my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
 my_bst.pretty_print
- my_bst.preorder do |node|
-  puts node.value
- end
+p my_bst.preorder
 
