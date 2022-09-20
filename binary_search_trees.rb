@@ -224,6 +224,14 @@ class Tree
     output
   end
 
+  def postorder(node=self.root, output =[], &block)
+    return if node == nil
+    postorder(node.left_child, output, &block)
+    output.push(block_given? ? block.call(node): node.value)
+    postorder(node.right_child, output, &block)
+    output
+  end
+
 end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
