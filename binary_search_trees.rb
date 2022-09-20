@@ -215,11 +215,20 @@ class Tree
     preorder(node.right_child, output, &block)
     output
   end
+
+  def inorder(node=self.root, output =[], &block)
+    return if node == nil
+    inorder(node.left_child, output, &block)
+    output.push(block_given? ? block.call(node): node.value)
+    inorder(node.right_child, output, &block)
+    output
+  end
+
 end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
 my_bst.pretty_print
-p my_bst.preorder
+
 
