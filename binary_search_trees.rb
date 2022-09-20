@@ -99,33 +99,17 @@ class Node
   # two additional nodes. These nodes will be compared
   # and added as left or right child. Both nodes are
   # optional.
-  def initialize(value, node_1 = nil, node_2 = nil)
+  def initialize(value)
     @value = value
     @left_child = nil
     @right_child = nil
-    if node_1
-      node_1.value > value ? right_child = node_1 : left_child = node_1
-    elsif node_1 && node_2
-      node_1.value > node_2.value ? right_child = node_1 && left_child = node_2 :
-      right_child = node_2 && left_child = node_1
-    end
+    # if node_1
+    #   node_1.value > value ? right_child = node_1 : left_child = node_1
+    # elsif node_1 && node_2
+    #   node_1.value > node_2.value ? right_child = node_1 && left_child = node_2 :
+    #   right_child = node_2 && left_child = node_1
+    # end
   end
-
-  def height
-    node = self
-    left_height = 0
-    right_height = 0
-    loop do
-      node = node.left_child
-      break if node == nil
-      left_height += 1
-    end
-    loop do
-      node = node.right_child
-      break if node == nil
-      right_height += 1
-    end
-    return left_height >= right_height ? left_height : right_height
 end
 
 class Tree
@@ -222,8 +206,9 @@ class Tree
     end
   end
 
-  # This method mainly calls two functions. If block is given it calls a function that yields nodes in pre-order.
-  # Else it returns an array of values (of nodes) in pre-order.
+  # This method traverses the tree in pre-order and yields each node in that order.
+  # If no block is given it returns an array of all values. #inorder and #postorder does the same in different
+  # order.
   def preorder(node=self.root, output =[], &block)
     return if node == nil
     output.push(block_given? ? block.call(node): node.value)
@@ -254,5 +239,7 @@ my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
 my_bst.pretty_print
+node = my_bst.find(8)
+puts node.height
 
 
