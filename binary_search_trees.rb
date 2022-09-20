@@ -83,22 +83,6 @@ module BstMethods
       find_successor_val(node.left_child)
     end
   end
-
-  def preorder_block(node)
-    return node if node == nil
-    yield node
-    preorder_block(node.left_child)
-    preorder_block(node.right_child)
-  end
-
-  def preorder_no_block(node, arr=[])
-    return node if node == nil
-    arr << node.value
-    preorder_no_block(node.left_child, arr)
-    preorder_no_block(node.right_child, arr)
-    return arr
-  end
-
 end
 
 #-------------------------------------#
@@ -224,12 +208,11 @@ class Tree
 
   # This method mainly calls two functions. If block is given it calls a function that yields nodes in pre-order.
   # Else it returns an array of values (of nodes) in pre-order.
-  def preorder
-    if block_given?
-      preorder_block(self.root)
-    else
-      preorder_no_block(self.root)
-    end
+  def preorder(node=self.root, output =[], &block)
+    return node if node == nil
+    output << block_given ? block.call(node): node.value
+    preorder(node.left_child, output, &block)
+    preorder(node.right_child, output, &block)
   end
 end
 
@@ -237,5 +220,7 @@ my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
 my_bst.pretty_print
-p my_bst.preorder
+ my_bst.preorder do |node|
+  puts node.value
+ end
 
