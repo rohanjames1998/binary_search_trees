@@ -110,6 +110,22 @@ class Node
       right_child = node_2 && left_child = node_1
     end
   end
+
+  def height
+    node = self
+    left_height = 0
+    right_height = 0
+    loop do
+      node = node.left_child
+      break if node == nil
+      left_height += 1
+    end
+    loop do
+      node = node.right_child
+      break if node == nil
+      right_height += 1
+    end
+    return left_height >= right_height ? left_height : right_height
 end
 
 class Tree
