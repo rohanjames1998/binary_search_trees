@@ -233,13 +233,19 @@ class Tree
     output
   end
 
+  def height(node=self.root, output=0)
+    return -1 if node == nil
+    left_height = 1 + height(node.left_child, output)
+    right_height = 1 + height(node.right_child, output)
+    return left_height >= right_height ? left_height : right_height
+  end
 end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
-my_bst.pretty_print
 node = my_bst.find(8)
-puts node.height
+
+puts my_bst.height
 
 
