@@ -233,19 +233,37 @@ class Tree
     output
   end
 
-  def height(node=self.root, output=0)
+  # This method returns the number of nodes between parameter and the last leaf node.
+  # If no parameter is provided it returns number of nodes between root and the last leaf node.
+  def height(node=self.root)
     return -1 if node == nil
-    left_height = 1 + height(node.left_child, output)
-    right_height = 1 + height(node.right_child, output)
+    left_height = 1 + height(node.left_child)
+    right_height = 1 + height(node.right_child)
     return left_height >= right_height ? left_height : right_height
   end
+
+  def depth(node)
+    current_node = self.root
+    output = 0
+    while current_node
+      if node.value > current_node.value
+        output += 1
+        current_node = current_node.right_child
+      elsif node.value < current_node.value
+        output += 1
+        current_node = current_node.left_child
+      else
+        return output
+      end
+    end
+  end
+  
 end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 my_bst.insert(99)
 # my_bst.delete(8)
-node = my_bst.find(8)
-
-puts my_bst.height
+node = my_bst.find(67)
+my_bst.pretty_print
 
 
