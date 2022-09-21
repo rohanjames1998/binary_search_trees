@@ -261,7 +261,6 @@ class Tree
 
   # This method returns true if the BST is balanced, else it returns false.
   def balanced?(node=self.root)
-    # Base case
     return if node == nil
     left_height = 0
     right_height = 0
@@ -282,6 +281,14 @@ class Tree
       # Finally we return false if either at any point out result becomes false.
       return left_result == false || right_result == false ? false : true
     end
+
+    def rebalance
+      sorted_arr = []
+      self.inorder do |node|
+      sorted_arr << node
+    end
+    p sorted_arr
+  end
 end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -295,6 +302,7 @@ my_bst.pretty_print
 # right = my_bst.find(8000)
 # left = my_bst.find(4)
 p my_bst.balanced?
+my_bst.rebalance
 
 
 
