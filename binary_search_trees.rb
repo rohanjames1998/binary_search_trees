@@ -259,21 +259,29 @@ class Tree
     end
   end
 
+  # This method returns true if the BST is balanced, else it returns false.
   def balanced?(node=self.root)
-    current_node = node
-  end
-
-  # while current_node
-  #   if current_node.left_child != nil
-  #     left_child = current_node.left_child
-  #   end
-  #   if current_node.right_child != nil
-  #     right_child = current_node.right_child
-  #   end
-  #   left_height = height(left)
-  #   right_height = height(right)
-  #   if (left_height - right_height).abs <= 1
-  #     current_node
+    # Base case
+    return if node == nil
+    left_height = 0
+    right_height = 0
+    if node.left_child != nil
+      left_height = height(node.left_child)
+    end
+    if node.right_child != nil
+      right_height = height(node.right_child)
+    end
+    # We compare left and right child's height. If difference is less than or equal to 1
+    # We recursively call #balanced? on its children. Otherwise we return false.
+    if (left_height - right_height).abs <= 1
+       left_result = balanced?(node.left_child)
+       right_result = balanced?(node.right_child)
+      else
+        return false
+      end
+      # Finally we return false if either at any point out result becomes false.
+      return left_result == false || right_result == false ? false : true
+    end
 end
 
 my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -284,8 +292,9 @@ my_bst.insert(7000)
 my_bst.insert(8000)
 my_bst.insert(6)
 my_bst.pretty_print
-right = my_bst.find(8000)
-left = my_bst.find(4)
+# right = my_bst.find(8000)
+# left = my_bst.find(4)
+p my_bst.balanced?
 
 
 
