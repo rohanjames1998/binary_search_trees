@@ -228,8 +228,8 @@ class Tree
   def postorder(node=self.root, output =[], &block)
     return if node == nil
     postorder(node.left_child, output, &block)
-    output.push(block_given? ? block.call(node): node.value)
     postorder(node.right_child, output, &block)
+    output.push(block_given? ? block.call(node): node.value)
     output
   end
 
@@ -282,27 +282,50 @@ class Tree
       return left_result == false || right_result == false ? false : true
     end
 
+    # This method re-balances a binary tree and returns the new root.
     def rebalance
       sorted_arr = []
+      #First we get all the values from unbalanced tree's nodes in sorted order.
       self.inorder do |node|
-      sorted_arr << node
-    end
-    p sorted_arr
+      sorted_arr << node.value
+      end
+      # Then we remove any duplicates if they exist.
+      sorted_arr.uniq!
+      #Finally we build a new tree and return the root.
+      @root = build_tree(sorted_arr)
   end
 end
+random_num_arr = Array.new(15) {rand(1..100)}
+puts "Balanced Binary Tree of random numbers:"
+puts "\n"
+my_tree = Tree.new(random_num_arr)
+my_tree.pretty_print
+puts "\nIs this tree balanced? : #{my_tree.balanced?}"
+puts "\nTree elements in
+    Preorder:  #{my_tree.preorder}
+    Inorder:   #{my_tree.inorder}
+    Postorder: #{my_tree.postorder}"
+puts "\nInserting several elements into the tree."
+puts "\n"
+my_tree.insert(240)
+my_tree.insert(890)
+my_tree.insert(600)
+my_tree.insert(470)
+my_tree.insert(1120)
+my_tree.pretty_print
+puts "\nIs this tree still balanced? : #{my_tree.balanced?}"
+puts  "\nRe-balancing tree..."
+my_tree.rebalance
+puts "\n"
+my_tree.pretty_print
+puts "\n"
+puts "Is this tree balanced now? : #{my_tree.balanced?}"
+puts "\nPrinting out tree elements in
+    Preorder:  #{my_tree.preorder}
+    Inorder:   #{my_tree.inorder}
+    Postorder: #{my_tree.postorder}"
 
-my_bst = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-my_bst.insert(99)
-# my_bst.delete(8)
-node = my_bst.find(6345)
-my_bst.insert(7000)
-my_bst.insert(8000)
-my_bst.insert(6)
-my_bst.pretty_print
-# right = my_bst.find(8000)
-# left = my_bst.find(4)
-p my_bst.balanced?
-my_bst.rebalance
+
 
 
 
