@@ -296,12 +296,12 @@ class Tree
   end
 end
 random_num_arr = Array.new(15) {rand(1..100)}
-puts "Balanced Binary Tree of random numbers:"
+puts "Balanced Binary Search Tree of random numbers:"
 puts "\n"
 my_tree = Tree.new(random_num_arr)
 my_tree.pretty_print
 puts "\nIs this tree balanced? : #{my_tree.balanced?}"
-puts "\nTree elements in
+puts "\nPrinting tree elements...
     Preorder:  #{my_tree.preorder}
     Inorder:   #{my_tree.inorder}
     Postorder: #{my_tree.postorder}"
@@ -319,8 +319,8 @@ my_tree.rebalance
 puts "\n"
 my_tree.pretty_print
 puts "\n"
-puts "Is this tree balanced now? : #{my_tree.balanced?}"
-puts "\nPrinting out tree elements in
+puts "Is this tree balanced? : #{my_tree.balanced?}"
+puts "\nPrinting out tree elements once again...
     Preorder:  #{my_tree.preorder}
     Inorder:   #{my_tree.inorder}
     Postorder: #{my_tree.postorder}"
